@@ -1,4 +1,5 @@
 package com.capgemini.hotelmanagement;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -9,6 +10,11 @@ import java.util.Scanner;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+/**
+ * 
+ * 
+ *
+ */
 public class HotelReservationSystem {
 	private static final Logger LOG = LogManager.getLogger(HotelReservationSystem.class);
 	static Scanner input = new Scanner(System.in);
@@ -23,28 +29,33 @@ public class HotelReservationSystem {
 			LOG.info("Enter the hotel details");
 			LOG.info("Enter the name of hotel");
 			String name = input.nextLine();
-			LOG.info("Enter the regular rate");
-			int regularRate = Integer.parseInt(input.nextLine());
-			Hotel hotel = new Hotel(name, regularRate);
+			LOG.info("Enter the weekday regular rate");
+			int weekdayRegularRate = Integer.parseInt(input.nextLine());
+			LOG.info("Enter the weeekend regular rate");
+			int weekendRegularRate = Integer.parseInt(input.nextLine());
+			Hotel hotel = new Hotel(name, weekdayRegularRate, weekendRegularRate);
 			hotelList.add(hotel);
 			LOG.info("Enter 1 to add another hotel, else enter 0: ");
 		} while (input.nextLine().equals("1"));
 	}
+	/**
+	 * 
+	 */
 
 	private static void getCheapestHotel() {
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MMM yyyy");
-		LOG.info("Enter start date (dd MMM yyyy): ");
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MM yyyy");
+		LOG.info("Enter start date (dd MM yyyy): ");
 		String startDateInput = input.nextLine();
-		LOG.info("Enter end date (dd MMM yyyy): ");
+		LOG.info("Enter end date (dd MM yyyy): ");
 		String endDateInput = input.nextLine();
 		LocalDate startDate = LocalDate.parse(startDateInput, dateFormat);
 		LocalDate endDate = LocalDate.parse(endDateInput, dateFormat);
 		int noOfDaysBetween = (int) ChronoUnit.DAYS.between(startDate, endDate);
-		int minCost = hotelList.get(0).regularRate;
+		int minCost = hotelList.get(0).weekdayRegularRate;
 		String cheapestHotelName = hotelList.get(0).name;
 		for (int i = 1; i < hotelList.size(); i++)
-			if (hotelList.get(i).regularRate < minCost) {
-				minCost = hotelList.get(i).regularRate;
+			if (hotelList.get(i).weekdayRegularRate < minCost) {
+				minCost = hotelList.get(i).weekdayRegularRate;
 				cheapestHotelName = hotelList.get(i).name;
 			}
 		LOG.info(cheapestHotelName + ", Total Cost : " + minCost * noOfDaysBetween);
@@ -55,5 +66,6 @@ public class HotelReservationSystem {
 		LOG.info("Welcome to Hotel Reservation Program");
 		hotelReservation.addHotels();
 		hotelReservation.hotelList.forEach(n -> LOG.info(n));
+		hotelReservation.getCheapestHotel();
 	}
 }
