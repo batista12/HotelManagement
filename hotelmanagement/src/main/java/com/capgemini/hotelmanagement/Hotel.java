@@ -4,28 +4,16 @@ package com.capgemini.hotelmanagement;
  * 
  *
  */
-public class Hotel 
-{
-	private String name;
-	private int regularRate;
+
+public class Hotel {
+	public String name;
+	public int regularRate;
 	
-	
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getRegularRate() {
-		return regularRate;
-	}
-	public void setRegularRate(int regularRate) {
-		this.regularRate = regularRate;
-	}
 	
 	public Hotel(String name, int regularRate) {
-		setName(name);
-		setRegularRate(regularRate);
+		super();
+		this.name = name;
+		this.regularRate = regularRate;
 	}
 	
 	@Override
