@@ -12,6 +12,12 @@ import java.time.*;
 import java.time.temporal.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+/**
+ * 
+ * 
+ *
+ */
 public class HotelReservationSystem {
 	private static final Logger LOG = LogManager.getLogger(HotelReservationSystem.class);
 	static Scanner input = new Scanner(System.in);
@@ -26,11 +32,13 @@ public class HotelReservationSystem {
 			LOG.info("Enter the hotel details");
 			LOG.info("Enter the name of hotel");
 			String name = input.nextLine();
+			LOG.info("Enter the rating");
+			int rating = input.nextInt();
 			LOG.info("Enter the weekday regular rate");
 			int weekdayRegularRate = Integer.parseInt(input.nextLine());
 			LOG.info("Enter the weeekend regular rate");
 			int weekendRegularRate = Integer.parseInt(input.nextLine());
-			Hotel hotel = new Hotel(name, weekdayRegularRate, weekendRegularRate);
+			Hotel hotel = new Hotel(name, weekdayRegularRate, weekendRegularRate, rating);
 			hotelList.add(hotel);
 			LOG.info("Enter 1 to add another hotel, else enter 0: ");
 		} while (input.nextLine().equals("1"));
