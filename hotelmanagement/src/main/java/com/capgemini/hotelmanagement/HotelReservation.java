@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 import java.time.*;
 import java.time.temporal.*;
 import org.apache.logging.log4j.LogManager;
@@ -22,7 +23,6 @@ public class HotelReservationSystem {
 	private static final Logger LOG = LogManager.getLogger(HotelReservationSystem.class);
 	static Scanner input = new Scanner(System.in);
 	private static List<Hotel> hotelList = new ArrayList<>();
-
 	/**
 	 * 
 	 */
@@ -33,7 +33,7 @@ public class HotelReservationSystem {
 			LOG.info("Enter the name of hotel");
 			String name = input.nextLine();
 			LOG.info("Enter the rating");
-			int rating = input.nextInt();
+			int rating = Integer.parseInt(input.nextLine());
 			LOG.info("Enter the weekday regular rate");
 			int weekdayRegularRate = Integer.parseInt(input.nextLine());
 			LOG.info("Enter the weeekend regular rate");
@@ -43,12 +43,12 @@ public class HotelReservationSystem {
 			LOG.info("Enter 1 to add another hotel, else enter 0: ");
 		} while (input.nextLine().equals("1"));
 	}
+
 	/**
 	 * 
 	 */
 
 	private void getCheapestHotel() {
-		String DayOfWeek;
 		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd MM yyyy");
 		LOG.info("Enter start date (dd MM yyyy): ");
 		String startDateInput = input.nextLine();
@@ -69,9 +69,31 @@ public class HotelReservationSystem {
 			hotel.setTotalRate(totalRate);
 			LOG.info("Total Rate=" + totalRate);
 		}
-		Hotel cheapestHotel = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate)).findFirst()
-				.orElse(null);
-		LOG.info(cheapestHotel.getname() + ", Total rates :$" + cheapestHotel.getTotalRate());
+		System.out.println("\n1.Find cheapest best rated hotel\n2.Find best rated hotel\nEnter your choice 1 or 2 : ");
+		int option = Integer.parseInt(input.nextLine());
+		if (option == 1) {
+			List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate))
+					.collect(Collectors.toList());
+
+			Hotel cheapestHotel = sortedList.get(0);
+			long cheapestRate = sortedList.get(0).getTotalRate();
+			for (Hotel hotel : sortedList) {
+				if (hotel.getTotalRate() <= cheapestRate) {
+					if (hotel.getRating() > cheapestHotel.getRating())
+						cheapestHotel = hotel;
+				} else
+					break;
+			}
+			LOG.info(cheapestHotel.getname() + ", Total rates : $" + cheapestHotel.getTotalRate() + " With Rating : "
+					+ cheapestHotel.getRating());
+		} else {
+			List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparing(Hotel::getRating).reversed())
+					.collect(Collectors.toList());
+			Hotel bestRatedHotel = sortedList.get(0);
+			long bestRate = sortedList.get(0).getRating();
+			LOG.info(bestRatedHotel.getname() + " With Rating : " + bestRatedHotel.getRating());
+
+		}
 
 	}
 
