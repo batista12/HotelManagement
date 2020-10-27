@@ -16,7 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  * 
- * 
+ * @author ASUS
  *
  */
 public class HotelReservationSystem {
@@ -38,12 +38,16 @@ public class HotelReservationSystem {
 			int weekdayRegularRate = Integer.parseInt(input.nextLine());
 			LOG.info("Enter the weeekend regular rate");
 			int weekendRegularRate = Integer.parseInt(input.nextLine());
-			Hotel hotel = new Hotel(name, weekdayRegularRate, weekendRegularRate, rating);
+			LOG.info("Enter the weekday rewards rate");
+			int weekdayRewardsRate = Integer.parseInt(input.nextLine());
+			LOG.info("Enter the weeekend rewards rate");
+			int weekendRewardsRate = Integer.parseInt(input.nextLine());
+			Hotel hotel = new Hotel(name, weekdayRegularRate, weekendRegularRate, rating, weekdayRewardsRate,
+					weekendRewardsRate);
 			hotelList.add(hotel);
 			LOG.info("Enter 1 to add another hotel, else enter 0: ");
 		} while (input.nextLine().equals("1"));
 	}
-
 	/**
 	 * 
 	 */
