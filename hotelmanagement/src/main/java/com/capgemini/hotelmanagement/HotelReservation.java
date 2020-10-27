@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  * @author ASUS
  *
  */
-public class HotelReservationSystem {
+public class HotelReservation {
 	private static final Logger LOG = LogManager.getLogger(HotelReservationSystem.class);
 	static Scanner input = new Scanner(System.in);
 	private static List<Hotel> hotelList = new ArrayList<>();
@@ -65,15 +65,26 @@ public class HotelReservationSystem {
 		DayOfWeek endW = endDate.getDayOfWeek();
 		long daysWithoutWeekends = noOfDaysBetween - 2 * ((noOfDaysBetween + startW.getValue()) / 7);
 		long calcWeekDays = daysWithoutWeekends + (startW.getValue() == 1 ? 1 : 0) + (endW.getValue() == 1 ? 1 : 0);
-		long calcWeekends = noOfDaysBetween - (calcWeekDays);
+		long calcWeekends = noOfDaysBetween - (calcWeekDays) + 1;
 		LOG.info("NoOfWeekdays" + calcWeekDays + "NoOfWeekends" + calcWeekends);
-		for (Hotel hotel : hotelList) {
-			long totalRate = calcWeekDays * hotel.getWeekdayRegularRate()
-					+ calcWeekDays * hotel.getWeekendRegularRate();
-			hotel.setTotalRate(totalRate);
-			LOG.info("Total Rate=" + totalRate);
+		LOG.info("\n1.Rewards\n2.Regular");
+		int choice = Integer.parseInt(input.nextLine());
+		if (choice == 1) {
+			for (Hotel hotel : hotelList) {
+				long totalRate = calcWeekDays * hotel.getWeekdayRewardsRate()
+						+ calcWeekDays * hotel.getWeekendRewardsRate();
+				hotel.setTotalRate(totalRate);
+				LOG.info("Total Rate=" + totalRate);
+			}
+		} else {
+			for (Hotel hotel : hotelList) {
+				long totalRate = calcWeekDays * hotel.getWeekdayRegularRate()
+						+ calcWeekDays * hotel.getWeekendRegularRate();
+				hotel.setTotalRate(totalRate);
+				LOG.info("Total Rate=" + totalRate);
+			}
 		}
-		System.out.println("\n1.Find cheapest best rated hotel\n2.Find best rated hotel\nEnter your choice 1 or 2 : ");
+		LOG.info("\n1.Find cheapest best rated hotel\n2.Find best rated hotel\nEnter your choice 1 or 2 : ");
 		int option = Integer.parseInt(input.nextLine());
 		if (option == 1) {
 			List<Hotel> sortedList = hotelList.stream().sorted(Comparator.comparing(Hotel::getTotalRate))
