@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
  * @author ASUS
  *
  */
-public class HotelReservation {
+public class HotelReservationSystem {
 	private static final Logger LOG = LogManager.getLogger(HotelReservationSystem.class);
 	static Scanner input = new Scanner(System.in);
 	private static List<Hotel> hotelList = new ArrayList<>();
